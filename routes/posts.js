@@ -13,6 +13,7 @@ router.post("/", async (req, res) => {
   }
 });
 
+
 //UPDATE POST
 router.put("/:id", async (req, res) => {
   try {
