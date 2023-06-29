@@ -8,11 +8,11 @@ const postRoute = require("./routes/posts");
 const categoryRoute = require("./routes/categories");
 const multer = require("multer");
 const path = require("path");
-
+const cors = require("cors"); 
 dotenv.config();
 app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "/images")));
-
+app.use(cors());
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
@@ -39,6 +39,10 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/categories", categoryRoute);
+
+app.get("/", (req, res) => {
+  res.send("Welcome to the API!");
+});
 
 app.listen("5000", () => {
   console.log("Backend is running. on 5000");
