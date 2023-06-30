@@ -5,12 +5,6 @@ const bcrypt = require("bcrypt");
 //REGISTER
 router.post("/register", async (req, res) => {
   try {
-    const existname = await User.findOne({ name: req.body.username });
-    if (existname)
-      return res.send(
-        "already name exist add numberic numbers like ex :user01"
-      );
-
     const existemail = await User.findOne({ name: req.body.email });
     if (existemail) return res.send("already register");
 
