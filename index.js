@@ -8,11 +8,11 @@ const postRoute = require("./routes/posts");
 const categoryRoute = require("./routes/categories");
 const multer = require("multer");
 const path = require("path");
-
+const cors = require("cors"); 
 dotenv.config();
 app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "/images")));
-
+app.use(cors());
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
@@ -31,14 +31,18 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-app.post("/api/upload", upload.single("file"), (req, res) => {
+app.post("/upload", upload.single("file"), (req, res) => {
   res.status(200).json("File has been uploaded");
 });
 
-app.use("/api/auth", authRoute);
-app.use("/api/users", userRoute);
-app.use("/api/posts", postRoute);
-app.use("/api/categories", categoryRoute);
+app.use("/auth", authRoute);
+app.use("/users", userRoute);
+app.use("/posts", postRoute);
+app.use("/categories", categoryRoute);
+
+app.get("/", (req, res) => {
+  res.send("Welcome to the API!");
+});
 
 app.listen("5000", () => {
   console.log("Backend is running. on 5000");
